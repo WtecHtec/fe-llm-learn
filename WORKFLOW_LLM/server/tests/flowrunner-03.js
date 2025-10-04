@@ -1,0 +1,8 @@
+import runWorkflow from "../WorkFlowRunner/index.js";
+
+const dsl = {"nodes":[{"id":"input-1","type":"inputNode","data":{"label":"输入节点","inputs":[{"name":"count","type":"string"}]}},{"id":"output-1","type":"outputNode","data":{"label":"输出节点","outputs":[{"from":"input-1.count","name":"content"}]}},{"id":"condition-2","type":"conditionNode","data":{"label":"条件","conditions":[{"left":"input-1.count","op":"==","right":"2"},{"left":"input-1.count","op":"==","right":"4"}]}},{"id":"output-3","type":"outputNode","data":{"label":"输出节点","outputs":[{"from":"input-1.count","name":"content"}]}},{"id":"output-4","type":"outputNode","data":{"label":"输出节点","outputs":[{"from":"input-1.count","name":"content"}]}}],"edges":[{"source":"input-1","sourceHandle":"source","target":"condition-2","targetHandle":"target","id":"xy-edge__input-1source-condition-2target"},{"source":"condition-2","sourceHandle":"target-0","target":"output-1","targetHandle":"target","id":"xy-edge__condition-2target-0-output-1target"},{"source":"condition-2","sourceHandle":"target-else","target":"output-3","targetHandle":"target","id":"xy-edge__condition-2target-else-output-3target"},{"source":"condition-2","sourceHandle":"target-1","target":"output-4","targetHandle":"target","id":"xy-edge__condition-2target-1-output-4target"}]}
+
+const inputParams ={ count: "4o" };
+
+const result = await runWorkflow(dsl, inputParams);
+console.log("result:::", result);

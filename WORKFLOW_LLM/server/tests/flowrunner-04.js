@@ -1,0 +1,8 @@
+import runWorkflow from "../WorkFlowRunner/index.js";
+
+const dsl = {"nodes":[{"id":"input-1","type":"inputNode","data":{"label":"输入节点","inputs":[{"name":"prompt","type":"string"}]}},{"id":"output-1","type":"outputNode","data":{"label":"输出节点","outputs":[{"name":"content","from":"llm-2.score"}]}},{"id":"llm-2","type":"llmNode","data":{"label":"LLM","model":"glm-4.5-flash","inputs":[{"name":"llm_prompt","from":"input-1.prompt"}],"system_prompt":"判断用户输入的内容，进行愤怒指数评分。\n用户输入：\n${llm_prompt}","outputs":[{"name":"score","type":"number"}]}},{"id":"condition-3","type":"conditionNode","data":{"label":"条件","conditions":[{"left":"llm-2.score","op":">","right":"60"}]}},{"id":"output-4","type":"outputNode","data":{"label":"输出节点","outputs":[{"name":"content","from":"input-1.prompt"}]}}],"edges":[{"source":"input-1","sourceHandle":"source","target":"llm-2","targetHandle":"target","id":"xy-edge__input-1source-llm-2target"},{"source":"llm-2","sourceHandle":"source","target":"condition-3","targetHandle":"target","id":"xy-edge__llm-2source-condition-3target"},{"source":"condition-3","sourceHandle":"target-0","target":"output-1","targetHandle":"target","id":"xy-edge__condition-3target-0-output-1target"},{"source":"condition-3","sourceHandle":"target-else","target":"output-4","targetHandle":"target","id":"xy-edge__condition-3target-else-output-4target"}]}
+
+const inputParams ={ prompt: "今天很开心!" };
+
+const result = await runWorkflow(dsl, inputParams);
+console.log("result:::", result);
